@@ -25,12 +25,15 @@ public class RoomTests
         definedRoom.Name.Should().Be(roomName);
     }
     
-    [Fact]
-    public void Room_name_must_be_longer_or_equal_to_three_characters()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    [InlineData(2)]
+    public void Room_name_must_be_longer_or_equal_to_three_characters(int numberOfCharacters)
     {
         //Arrange
         var expectedErrorMessage = "Room name length must be greater or equal 3";
-        var roomName = $"{Guid.NewGuid():N}".Substring(0,2);
+        var roomName = $"{Guid.NewGuid():N}".Substring(0,numberOfCharacters);
         //Act
         Action definedRoom = () => Room.Define(10, true, true, true, roomName);
         //Assert
