@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomScheduling.Domain", "src\RoomScheduling.Domain\RoomScheduling.Domain.csproj", "{00226FC6-CB41-4C96-98F3-3E82DFA8A617}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{1F12C197-2CE5-4127-AD0C-CDD355C2BA41}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A9ADC4D5-44E4-4FAF-86D8-16C4685762A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomScheduling.Domain.Tests", "tests\RoomScheduling.Domain.Tests\RoomScheduling.Domain.Tests.csproj", "{EAE80ABB-D5F0-429A-8310-0A146DDB94CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00226FC6-CB41-4C96-98F3-3E82DFA8A617}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00226FC6-CB41-4C96-98F3-3E82DFA8A617}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00226FC6-CB41-4C96-98F3-3E82DFA8A617}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00226FC6-CB41-4C96-98F3-3E82DFA8A617}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAE80ABB-D5F0-429A-8310-0A146DDB94CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAE80ABB-D5F0-429A-8310-0A146DDB94CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAE80ABB-D5F0-429A-8310-0A146DDB94CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAE80ABB-D5F0-429A-8310-0A146DDB94CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{00226FC6-CB41-4C96-98F3-3E82DFA8A617} = {1F12C197-2CE5-4127-AD0C-CDD355C2BA41}
+		{EAE80ABB-D5F0-429A-8310-0A146DDB94CA} = {A9ADC4D5-44E4-4FAF-86D8-16C4685762A0}
+	EndGlobalSection
+EndGlobal
