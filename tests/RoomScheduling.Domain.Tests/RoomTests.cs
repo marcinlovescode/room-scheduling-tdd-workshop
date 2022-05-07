@@ -1,3 +1,4 @@
+using System;
 using Xunit;
 using FluentAssertions;
 
@@ -20,5 +21,16 @@ public class RoomTests
         definedRoom.HasProjector.Should().Be(hasProjector);
         definedRoom.HasSoundSystem.Should().Be(hasSoundSystem);
         definedRoom.HasAirConditioner.Should().Be(hasAirConditioner);
+    }
+
+    [Fact]
+    public void Define_room_sets_room_name()
+    {
+        //Arrange
+        var roomName = $"{Guid.NewGuid():N}";
+        //Act
+        Room definedRoom = null;
+        //Assert
+        definedRoom.Name.Should.Be(roomName);
     }
 }
