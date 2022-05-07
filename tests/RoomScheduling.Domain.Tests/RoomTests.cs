@@ -14,8 +14,7 @@ public class RoomTests
         var hasSoundSystem = true;
         var hasAirConditioner = false;
         //Act
-        dynamic definedRoom = null;
-
+        var definedRoom = Room.Define(numberOfSeats,hasProjector,hasSoundSystem,hasAirConditioner);
         //Assert
         definedRoom.NumberOfSeats.Should().Be(numberOfSeats);
         definedRoom.HasProjector.Should().Be(hasProjector);
