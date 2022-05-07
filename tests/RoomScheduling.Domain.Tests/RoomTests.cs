@@ -24,4 +24,16 @@ public class RoomTests
         definedRoom.HasAirConditioner.Should().Be(hasAirConditioner);
         definedRoom.Name.Should().Be(roomName);
     }
+    
+    [Fact]
+    public void Room_name_must_be_longer_or_equal_to_three_characters()
+    {
+        //Arrange
+        var expectedErrorMessage = "Room name length must be greater or equal 3";
+        var roomName = $"{Guid.NewGuid():N}";
+        //Act
+        Action definedRoom = () => Room.Define(10, true, true, true, roomName);
+        //Assert
+        definedRoom.Should().Throw<ArgumentException>().WithMessage(expectedErrorMessage);
+    }
 }
