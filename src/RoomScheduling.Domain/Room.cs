@@ -17,9 +17,8 @@ public class Room
         Name = name;
     }
 
-    public static Room Define(int numberOfSeats, bool hasProjector, bool hasSoundSystem, bool hasAirConditioner, string? name = null)
+    public static Room Define(int numberOfSeats, bool hasProjector, bool hasSoundSystem, bool hasAirConditioner, string name)
     {
-        name = string.IsNullOrWhiteSpace(name) ? $"{Guid.NewGuid():N}" : name;
         return new Room(numberOfSeats, hasProjector, hasSoundSystem, hasAirConditioner, name);
     }
 }
