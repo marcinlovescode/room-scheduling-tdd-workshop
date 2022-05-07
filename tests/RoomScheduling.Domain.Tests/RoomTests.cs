@@ -30,7 +30,7 @@ public class RoomTests
     {
         //Arrange
         var expectedErrorMessage = "Room name length must be greater or equal 3";
-        var roomName = $"{Guid.NewGuid():N}";
+        var roomName = $"{Guid.NewGuid():N}".Substring(0,2);
         //Act
         Action definedRoom = () => Room.Define(10, true, true, true, roomName);
         //Assert

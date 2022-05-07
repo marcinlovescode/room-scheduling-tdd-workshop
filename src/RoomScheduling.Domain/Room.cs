@@ -19,6 +19,8 @@ public class Room
 
     public static Room Define(int numberOfSeats, bool hasProjector, bool hasSoundSystem, bool hasAirConditioner, string name)
     {
+        if (name.Length < 3)
+            throw new ArgumentException("Room name length must be greater or equal 3");
         return new Room(numberOfSeats, hasProjector, hasSoundSystem, hasAirConditioner, name);
     }
 }
