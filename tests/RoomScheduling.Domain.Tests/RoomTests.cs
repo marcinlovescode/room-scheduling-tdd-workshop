@@ -29,8 +29,8 @@ public class RoomTests
         //Arrange
         var roomName = $"{Guid.NewGuid():N}";
         //Act
-        Room definedRoom = null;
+        var definedRoom = Room.Define(10,false,false,false, roomName);
         //Assert
-        definedRoom.Name.Should.Be(roomName);
+        definedRoom.Name.Should().Be(roomName);
     }
 }
