@@ -6,23 +6,23 @@ namespace RoomScheduling.Domain.Tests;
 
 public class RoomTests
 {
+    private const int ValidNumberOfSeats = 10;
+    private const bool ValidHasProjector = true;
+    private const bool ValidHasSoundSystem = true;
+    private const bool ValidHasAirConditioner = false;
+    private readonly string _validRoomNumber = $"{Guid.NewGuid():N}"[..3];
+    
     [Fact]
     public void Define_room_creates_fully_configured_room()
     {
-        //Arrange
-        var numberOfSeats = 10;
-        var hasProjector = true;
-        var hasSoundSystem = true;
-        var hasAirConditioner = false;
-        var roomName = $"{Guid.NewGuid():N}";
         //Act
-        var definedRoom = Room.Define(numberOfSeats, hasProjector, hasSoundSystem, hasAirConditioner, roomName);
+        var definedRoom = Room.Define(ValidNumberOfSeats, ValidHasProjector, ValidHasSoundSystem, ValidHasAirConditioner, _validRoomNumber);
         //Assert
-        definedRoom.NumberOfSeats.Should().Be(numberOfSeats);
-        definedRoom.HasProjector.Should().Be(hasProjector);
-        definedRoom.HasSoundSystem.Should().Be(hasSoundSystem);
-        definedRoom.HasAirConditioner.Should().Be(hasAirConditioner);
-        definedRoom.Name.Should().Be(roomName);
+        definedRoom.NumberOfSeats.Should().Be(ValidNumberOfSeats);
+        definedRoom.HasProjector.Should().Be(ValidHasProjector);
+        definedRoom.HasSoundSystem.Should().Be(ValidHasSoundSystem);
+        definedRoom.HasAirConditioner.Should().Be(ValidHasAirConditioner);
+        definedRoom.Name.Should().Be(_validRoomNumber);
     }
     
     [Theory]
@@ -33,9 +33,9 @@ public class RoomTests
     {
         //Arrange
         var expectedErrorMessage = "Room name length must be greater or equal 3";
-        var roomName = $"{Guid.NewGuid():N}".Substring(0,numberOfCharacters);
+        var roomName = $"{Guid.NewGuid():N}"[..numberOfCharacters];
         //Act
-        Action definedRoom = () => Room.Define(10, true, true, true, roomName);
+        Action definedRoom = () => Room.Define(ValidNumberOfSeats, ValidHasProjector, ValidHasSoundSystem, ValidHasAirConditioner, roomName);
         //Assert
         definedRoom.Should().Throw<ArgumentException>().WithMessage(expectedErrorMessage);
     }
