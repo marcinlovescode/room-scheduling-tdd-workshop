@@ -39,4 +39,17 @@ public class RoomTests
         //Assert
         definedRoom.Should().Throw<ArgumentException>().WithMessage(expectedErrorMessage);
     }
+    
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(0)]
+    public void Number_of_seats_must_be_greater_or_equal_to_one(int numberOfSeats)
+    {
+        //Arrange
+        var expectedErrorMessage = "Number of seats must be greater than or equal 1";
+        //Act
+        Action definedRoom = () => Room.Define(numberOfSeats, ValidHasProjector, ValidHasSoundSystem, ValidHasAirConditioner, _validRoomNumber);
+        //Assert
+        definedRoom.Should().Throw<ArgumentException>().WithMessage(expectedErrorMessage);
+    }
 }
