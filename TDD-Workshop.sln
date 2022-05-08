@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_root", "_root", "{693A8C87
 		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomScheduling.SqlitePersistence.Tests", "tests\RoomScheduling.SqlitePersistence.Tests\RoomScheduling.SqlitePersistence.Tests.csproj", "{38E61975-CD25-483B-A94D-F08D7F5D363C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +29,14 @@ Global
 		{EAE80ABB-D5F0-429A-8310-0A146DDB94CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAE80ABB-D5F0-429A-8310-0A146DDB94CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAE80ABB-D5F0-429A-8310-0A146DDB94CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38E61975-CD25-483B-A94D-F08D7F5D363C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38E61975-CD25-483B-A94D-F08D7F5D363C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38E61975-CD25-483B-A94D-F08D7F5D363C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38E61975-CD25-483B-A94D-F08D7F5D363C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{00226FC6-CB41-4C96-98F3-3E82DFA8A617} = {1F12C197-2CE5-4127-AD0C-CDD355C2BA41}
 		{EAE80ABB-D5F0-429A-8310-0A146DDB94CA} = {A9ADC4D5-44E4-4FAF-86D8-16C4685762A0}
+		{38E61975-CD25-483B-A94D-F08D7F5D363C} = {A9ADC4D5-44E4-4FAF-86D8-16C4685762A0}
 	EndGlobalSection
 EndGlobal
