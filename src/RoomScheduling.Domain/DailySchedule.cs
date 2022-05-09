@@ -17,10 +17,23 @@ public class DailySchedule
 
     public void Book(TimeOnly from, TimeOnly to)
     {
-        if (_bookings.Any(x => x.from <= to && x.to >= from))
+        if (TimeRangesOverlapsBookings(from,to))
             throw new InvalidOperationException("Time slots overlaps with existing booking");
         _bookings.Add((from, to));
     }
 
-    public bool IsTimeSlotAvailable(TimeOnly from, TimeOnly to) => !_bookings.Contains((from, to));
+    public bool IsTimeSlotAvailable(TimeOnly from, TimeOnly to) => !TimeRangesOverlapsBookings(from, to);
+
+    private bool TimeRangesOverlapsBookings(TimeOnly from, TimeOnly to)
+    {
+        var right = (from, to);
+        return _bookings.Any(x => TimeRangesOverlaps(x, right));
+    }
+
+    
+    private static bool TimeRangesOverlaps((TimeOnly from, TimeOnly to) left, (TimeOnly from, TimeOnly to) right)
+    {
+       return left.from <= right.to && left.to >= right.from;
+    }
+    
 }
