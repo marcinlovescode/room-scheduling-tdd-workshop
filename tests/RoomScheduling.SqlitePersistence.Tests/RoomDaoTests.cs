@@ -4,6 +4,7 @@ using FluentAssertions;
 using Xunit;
 
 using RoomScheduling.Domain;
+using RoomScheduling.Fixtures;
 
 namespace RoomScheduling.SqlitePersistence.Tests;
 

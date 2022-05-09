@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using RoomScheduling.Application.Handlers;
+using RoomScheduling.Fixtures;
 using RoomScheduling.SqlitePersistence;
 using Xunit;
 
@@ -12,17 +14,13 @@ public class DefineRoomTests
     public async Task Defines_and_persists_room()
     {
         //Arrange
-        var command = new
-        {
-            NumberOfSeats = 5,
-            HasProjector = false,
-            HasSoundSystem = false,
-            HasAirConditioner = false,
-            Name = Guid.NewGuid().ToString("N")
-        };
-        RoomDao dao = null;
+        var command = new DefineRoomCommand(5, false, false, false, Guid.NewGuid().ToString("N"));
+        var createDbConnection = DbFixture.GetDefaultCreateDbFunc();
+        await new Bootstrapper(createDbConnection).Bootstrap();
+        var dao = new RoomDao(createDbConnection);
+        var commandHandler = new DefineRoomHandler(dao);
         //Act
-        Action defineRoom = () => throw new NotImplementedException();
+        await commandHandler.Handle(command);
         //Assert
         var persistedRoom = await dao.Get(command.Name);
         persistedRoom.Should().NotBeNull();

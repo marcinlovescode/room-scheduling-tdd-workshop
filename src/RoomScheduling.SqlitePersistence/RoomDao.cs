@@ -1,11 +1,12 @@
 ﻿using Dapper;
 using Microsoft.Data.Sqlite;
+using RoomScheduling.Application.Ports;
 using RoomScheduling.Domain;
 using RoomScheduling.SqlitePersistence.DbModels;
 
 namespace RoomScheduling.SqlitePersistence;
 
-public class RoomDao
+public class RoomDao : IRoomDao
 {
     private readonly Func<SqliteConnection> _createDbConnection;
 

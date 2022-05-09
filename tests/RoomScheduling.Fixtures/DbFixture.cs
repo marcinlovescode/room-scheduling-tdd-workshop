@@ -1,7 +1,7 @@
 using System;
 using Microsoft.Data.Sqlite;
 
-namespace RoomScheduling.SqlitePersistence.Tests;
+namespace RoomScheduling.Fixtures;
 
 public static class DbFixture
 {
