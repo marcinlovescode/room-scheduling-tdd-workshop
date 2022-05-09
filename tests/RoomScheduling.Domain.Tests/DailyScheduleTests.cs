@@ -31,6 +31,6 @@ public class DailyScheduleTests
         //Act
         dailySchedule.Book(from, to);
         //Assert
-        dailySchedule.IsTimeSlotAvailable(from, to).Should().NotBeTrue();
+        dailySchedule.IsTimeSlotAvailable(from, to).Should().BeFalse();
     }
 }
