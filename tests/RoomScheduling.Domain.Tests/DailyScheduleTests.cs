@@ -19,8 +19,10 @@ public class DailyScheduleTests
         dailySchedule.Date.Should().Be(date);
     }
     
-    [Fact]
-    public void Booked_timeslot_is_visible()
+    [Theory]
+    [InlineData(12,00,14,00)]
+    [InlineData(13,00,13,30)]
+    public void Booked_timeslot_is_visible(int fromHour, int fromMinutes, int toHour, int toMinutes)
     {
         //Arrange
         var id = Guid.NewGuid().ToString("N");
@@ -29,7 +31,7 @@ public class DailyScheduleTests
         var from = new TimeOnly(12, 00);
         var to = new TimeOnly(14, 00);
         //Act
-        dailySchedule.Book(from, to);
+        dailySchedule.Book(new TimeOnly(fromHour, fromMinutes), new TimeOnly(toHour, toMinutes));
         //Assert
         dailySchedule.IsTimeSlotAvailable(from, to).Should().BeFalse();
     }
