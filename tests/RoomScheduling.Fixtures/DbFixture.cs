@@ -5,7 +5,7 @@ namespace RoomScheduling.Fixtures;
 
 public static class DbFixture
 {
-    public static readonly string DefaultDbName = $"{Guid.NewGuid():N}";
+    private static string GetDefaultDbName() => $"{Guid.NewGuid():N}";
 
     public static Func<SqliteConnection> GetCreateDbFunc(string dbName)
     {
@@ -13,6 +13,6 @@ public static class DbFixture
         return () => new SqliteConnection(dbConnectionString);
     }
     
-    public static Func<SqliteConnection> GetDefaultCreateDbFunc() => GetCreateDbFunc(DefaultDbName);
+    public static Func<SqliteConnection> GetDefaultCreateDbFunc() => GetCreateDbFunc(GetDefaultDbName());
     
 }
