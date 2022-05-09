@@ -23,6 +23,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\RoomScheduling.Domain\RoomScheduling.Domain.csproj" />
+        <ProjectReference Include="..\..\src\RoomScheduling.Host\RoomScheduling.Host.csproj" />
         <ProjectReference Include="..\..\src\RoomScheduling.SqlitePersistence\RoomScheduling.SqlitePersistence.csproj" />
     </ItemGroup>
 

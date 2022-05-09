@@ -17,7 +17,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomScheduling.SqlitePersis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomScheduling.SqlitePersistence", "src\RoomScheduling.SqlitePersistence\RoomScheduling.SqlitePersistence.csproj", "{8E7A4ECB-5EE2-413F-AE16-90C6BF58A939}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomScheduling.Domain.Host.Tests", "tests\RoomScheduling.Domain.Host.Tests\RoomScheduling.Domain.Host.Tests.csproj", "{07E59AF9-1CD1-4AF8-8F20-0ACCA2C0903B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomScheduling.Host.Tests", "tests\RoomScheduling.Host.Tests\RoomScheduling.Host.Tests.csproj", "{07E59AF9-1CD1-4AF8-8F20-0ACCA2C0903B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoomScheduling.Host", "src\RoomScheduling.Host\RoomScheduling.Host.csproj", "{791E87FD-9ACB-41E4-81FC-F448DDAD96AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{07E59AF9-1CD1-4AF8-8F20-0ACCA2C0903B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07E59AF9-1CD1-4AF8-8F20-0ACCA2C0903B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07E59AF9-1CD1-4AF8-8F20-0ACCA2C0903B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{791E87FD-9ACB-41E4-81FC-F448DDAD96AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{791E87FD-9ACB-41E4-81FC-F448DDAD96AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{791E87FD-9ACB-41E4-81FC-F448DDAD96AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{791E87FD-9ACB-41E4-81FC-F448DDAD96AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{00226FC6-CB41-4C96-98F3-3E82DFA8A617} = {1F12C197-2CE5-4127-AD0C-CDD355C2BA41}
@@ -52,5 +58,6 @@ Global
 		{38E61975-CD25-483B-A94D-F08D7F5D363C} = {A9ADC4D5-44E4-4FAF-86D8-16C4685762A0}
 		{8E7A4ECB-5EE2-413F-AE16-90C6BF58A939} = {1F12C197-2CE5-4127-AD0C-CDD355C2BA41}
 		{07E59AF9-1CD1-4AF8-8F20-0ACCA2C0903B} = {A9ADC4D5-44E4-4FAF-86D8-16C4685762A0}
+		{791E87FD-9ACB-41E4-81FC-F448DDAD96AB} = {1F12C197-2CE5-4127-AD0C-CDD355C2BA41}
 	EndGlobalSection
 EndGlobal
