@@ -36,7 +36,7 @@ namespace RoomScheduling.Host.Tests
                 }); 
             var client = application.CreateClient();
             var response = await client.SendAsync(request);
-            var location = response.Headers.Location.MakeRelativeUri(client.BaseAddress);
+            var location = response.Headers.Location;
             //Act
             response.EnsureSuccessStatusCode();
             var result = await client.GetAsync(location);

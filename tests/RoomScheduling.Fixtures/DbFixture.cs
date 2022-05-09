@@ -14,5 +14,4 @@ public static class DbFixture
     }
     
     public static Func<SqliteConnection> GetDefaultCreateDbFunc() => GetCreateDbFunc(GetDefaultDbName());
-    
 }
