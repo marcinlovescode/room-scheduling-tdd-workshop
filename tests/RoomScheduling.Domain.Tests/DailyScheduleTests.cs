@@ -33,4 +33,23 @@ public class DailyScheduleTests
         //Assert
         dailySchedule.IsTimeSlotAvailable(from, to).Should().BeFalse();
     }
+    
+    [Fact]
+    public void Cannot_book_when_time_range_overlaps()
+    {
+        //Arrange
+        var id = Guid.NewGuid().ToString("N");
+        var date = new DateOnly(2022, 5, 9);
+        var dailySchedule = new DailySchedule(id, date);
+        var from1 = new TimeOnly(12, 00);
+        var from2 = new TimeOnly(12, 00);
+        var to1 = new TimeOnly(14, 00);
+        var to2 = new TimeOnly(14, 00);
+        var errorMessage = "Time slots overlaps with expisting booking";
+        dailySchedule.Book(from1, to1);
+        //Act
+        var bookAction = () => dailySchedule.Book(from2, to2);
+        //Assert
+        bookAction.Should().Throw<InvalidOperationException>().WithMessage(errorMessage);
+    }
 }
