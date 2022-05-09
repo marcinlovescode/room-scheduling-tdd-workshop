@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.Data.Sqlite;
 using Xunit;
 
 using RoomScheduling.Domain;
@@ -14,8 +13,7 @@ public class RoomDaoTests
     public async Task Saves_room()
     {
         //Arrange
-        var dbName = $"Data Source={Guid.NewGuid():N}.db";
-        Func<SqliteConnection> createDbConnection = () => new SqliteConnection(dbName);
+        var createDbConnection = DbFixture.GetDefaultCreateDbFunc();
         var dbBootstrapper = new Bootstrapper(createDbConnection);
         await dbBootstrapper.Bootstrap();
         var room = new Room(10, true, true, true, $"{Guid.NewGuid():N}");
