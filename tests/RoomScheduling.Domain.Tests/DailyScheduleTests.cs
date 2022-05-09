@@ -1,4 +1,5 @@
 using System;
+using FluentAssertions;
 using Xunit;
 
 namespace RoomScheduling.Domain.Tests;
@@ -12,7 +13,7 @@ public class DailyScheduleTests
         var id = Guid.NewGuid().ToString("N");
         var date = new DateOnly(2022, 5, 9);
         //Act
-        dynamic dailySchedule = null
+        var dailySchedule = new DailySchedule(id, date);
         //Assert
         dailySchedule.ResourceId.Should().Be(id);
         dailySchedule.Date.Should().Be(date);
