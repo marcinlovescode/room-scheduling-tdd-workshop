@@ -17,6 +17,8 @@ public class DailySchedule
 
     public void Book(TimeOnly from, TimeOnly to)
     {
+        if (_bookings.Any(x => x.from <= to && x.to >= from))
+            throw new InvalidOperationException("Time slots overlaps with existing booking");
         _bookings.Add((from, to));
     }
 

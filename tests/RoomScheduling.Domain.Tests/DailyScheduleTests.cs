@@ -45,7 +45,7 @@ public class DailyScheduleTests
         var from2 = new TimeOnly(12, 00);
         var to1 = new TimeOnly(14, 00);
         var to2 = new TimeOnly(14, 00);
-        var errorMessage = "Time slots overlaps with expisting booking";
+        var errorMessage = "Time slots overlaps with existing booking";
         dailySchedule.Book(from1, to1);
         //Act
         var bookAction = () => dailySchedule.Book(from2, to2);
