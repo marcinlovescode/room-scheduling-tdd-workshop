@@ -18,4 +18,19 @@ public class DailyScheduleTests
         dailySchedule.ResourceId.Should().Be(id);
         dailySchedule.Date.Should().Be(date);
     }
+    
+    [Fact]
+    public void Booked_timeslot_is_visible()
+    {
+        //Arrange
+        var id = Guid.NewGuid().ToString("N");
+        var date = new DateOnly(2022, 5, 9);
+        var dailySchedule = new DailySchedule(id, date);
+        var from = new TimeOnly(12, 00);
+        var to = new TimeOnly(14, 00);
+        //Act
+        dailySchedule.Book(from, to);
+        //Assert
+        dailySchedule.IsTimeSlotAvailable(from, to).Should().NotBeTrue();
+    }
 }
