@@ -43,11 +43,11 @@ namespace RoomScheduling.Host.Tests
             //Assert
             var dto = await result.Content.ReadFromJsonAsync<RoomDto>();
             dto.Should().NotBeNull();
-            dto.Name.Should().Be(payload.Name);
-            dto.NumberOfSeats.Should().Be(payload.NumberOfSeats);
-            dto.HasProjector.Should().Be(payload.HasProjector);
-            dto.HasSoundSystem.Should().Be(payload.HasSoundSystem);
-            dto.HasAirConditioner.Should().Be(payload.HasAirConditioner);
+            dto?.Name.Should().Be(payload.Name);
+            dto?.NumberOfSeats.Should().Be(payload.NumberOfSeats);
+            dto?.HasProjector.Should().Be(payload.HasProjector);
+            dto?.HasSoundSystem.Should().Be(payload.HasSoundSystem);
+            dto?.HasAirConditioner.Should().Be(payload.HasAirConditioner);
         }
     }
 }

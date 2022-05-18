@@ -29,11 +29,9 @@ public class DailySchedule
         var right = (from, to);
         return _bookings.Any(x => TimeRangesOverlaps(x, right));
     }
-
     
     private static bool TimeRangesOverlaps((TimeOnly from, TimeOnly to) left, (TimeOnly from, TimeOnly to) right)
     {
        return left.from <= right.to && left.to >= right.from;
     }
-    
 }
