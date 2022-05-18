@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using FluentAssertions;
 using RoomScheduling.Domain;
 using RoomScheduling.Fixtures;
 using Xunit;

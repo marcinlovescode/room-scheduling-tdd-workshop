@@ -14,6 +14,13 @@ public class DailySchedule
         Date = date;
         _bookings = new List<(TimeOnly from, TimeOnly to)>();
     }
+    
+    public DailySchedule(string resourceId, DateOnly date, IReadOnlyCollection<(TimeOnly from, TimeOnly to)> bookings)
+    {
+        ResourceId = resourceId;
+        Date = date;
+        _bookings = bookings.ToList();
+    }
 
     public void Book(TimeOnly from, TimeOnly to)
     {
