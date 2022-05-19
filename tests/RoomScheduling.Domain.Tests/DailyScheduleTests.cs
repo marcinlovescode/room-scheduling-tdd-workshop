@@ -81,4 +81,25 @@ public class DailyScheduleTests
         //Assert
         bookAction.Should().Throw<InvalidOperationException>().WithMessage(errorMessage);
     }
+    
+    [Fact]
+    public void Returns_available_time_slots()
+    {
+        //Arrange
+        var id = Guid.NewGuid().ToString("N");
+        var date = new DateOnly(2022, 5, 18);
+        var dailySchedule = new DailySchedule(id, date);
+        var from1 = new TimeOnly(10, 00);
+        var to1 = new TimeOnly(12, 00);
+        var from2 = new TimeOnly(13, 00);
+        var to2 = new TimeOnly(14, 00);
+        dailySchedule.Book(from1, to1);
+        dailySchedule.Book(from2, to2);
+        //Act
+        var result = dailySchedule.AvailableTimeSlots();
+        //Assert
+        result[0].Should.Be((new TimeOnly(00, 00), new TimeOnly(10, 00)));
+        result[1].Should.Be((new TimeOnly(12, 00), new TimeOnly(13, 00)));
+        result[2].Should.Be((new TimeOnly(14, 00), new TimeOnly(00, 00)));
+    }
 }
