@@ -47,6 +47,7 @@ public class RoomDaoTests
         //Act
         var roomsMatchingCriteria = await dao.Find(numberOfSeats: 10, hasProjector: false, hasSoundSystem: true, hasAirConditioner:false);
         //Assert
+        roomsMatchingCriteria.Should().NotContain(x => x.Name == room1.Name);
         roomsMatchingCriteria.Should().Contain(x => x.Name == room2.Name);
         roomsMatchingCriteria.Should().Contain(x => x.Name == room3.Name);
     }
