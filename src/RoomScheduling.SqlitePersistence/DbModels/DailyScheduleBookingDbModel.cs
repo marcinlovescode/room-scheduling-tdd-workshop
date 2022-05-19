@@ -23,10 +23,9 @@ public class DailyScheduleBookingDbModel
             .ToList()
             .AsReadOnly();
 
-    public static DailySchedule ToDomain(IReadOnlyCollection<DailyScheduleBookingDbModel> dailyScheduleBookingsDbModels, string? resourceId = null, DateOnly? date = null)
+    public static DailySchedule ToDomain(IReadOnlyCollection<DailyScheduleBookingDbModel> dailyScheduleBookingsDbModels, string resourceId, DateOnly date)
     {
-        var firstElement = dailyScheduleBookingsDbModels.First();
-        return new DailySchedule(string.IsNullOrEmpty(resourceId) ? firstElement.ResourceId : resourceId, date ?? DateOnly.Parse(firstElement.Date),
+        return new DailySchedule(resourceId, date,
             dailyScheduleBookingsDbModels
                 .Select(x => (TimeOnly.Parse(x.From), TimeOnly.Parse(x.To)))
                 .ToList
