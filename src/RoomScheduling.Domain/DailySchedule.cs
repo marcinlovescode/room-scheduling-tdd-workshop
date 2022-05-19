@@ -31,6 +31,20 @@ public class DailySchedule
 
     public bool IsTimeSlotAvailable(TimeOnly from, TimeOnly to) => !TimeRangesOverlapsBookings(from, to);
 
+    public IReadOnlyCollection<(TimeOnly from, TimeOnly to)> AvailableTimeSlots()
+    {
+        var result = new List<(TimeOnly from, TimeOnly to)>() { (new TimeOnly(00, 00), new TimeOnly(00, 00)) };
+        foreach (var booking in _bookings.OrderBy(x=> x.from))
+        {
+            var last = result.Last();
+            result.Remove(last);
+            result.Add((last.Item1, booking.from));
+            result.Add((booking.Item2, last.Item2));
+        }
+
+        return result;
+    }
+
     private bool TimeRangesOverlapsBookings(TimeOnly from, TimeOnly to)
     {
         var right = (from, to);

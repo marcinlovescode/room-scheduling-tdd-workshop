@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentAssertions;
 using Xunit;
 
@@ -98,8 +99,8 @@ public class DailyScheduleTests
         //Act
         var result = dailySchedule.AvailableTimeSlots();
         //Assert
-        result[0].Should.Be((new TimeOnly(00, 00), new TimeOnly(10, 00)));
-        result[1].Should.Be((new TimeOnly(12, 00), new TimeOnly(13, 00)));
-        result[2].Should.Be((new TimeOnly(14, 00), new TimeOnly(00, 00)));
+        result.ElementAt(0).Should().Be((new TimeOnly(00, 00), new TimeOnly(10, 00)));
+        result.ElementAt(1).Should().Be((new TimeOnly(12, 00), new TimeOnly(13, 00)));
+        result.ElementAt(2).Should().Be((new TimeOnly(14, 00), new TimeOnly(00, 00)));
     }
 }
