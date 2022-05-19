@@ -56,14 +56,21 @@ public class DailyScheduleDaoTests
         var notExistingResourceId1 = $"{Guid.NewGuid():N}";
         var notExistingResourceId2 = $"{Guid.NewGuid():N}";
         var anyDate = DateOnly.MinValue;
+        var dailySchedule = new DailySchedule($"{Guid.NewGuid():N}", anyDate);
+        dailySchedule.Book(new TimeOnly(10, 00), new TimeOnly(12, 00));
         await dbBootstrapper.Bootstrap();
         var dao = new DailyScheduleDao(createDbConnection);
+        await dao.Save(dailySchedule);
         //Act
-        var result = await dao.Get(new []{notExistingResourceId1, notExistingResourceId2}, DateOnly.MinValue);
+        var result = await dao.Get(new []{notExistingResourceId1, notExistingResourceId2, dailySchedule.ResourceId}, DateOnly.MinValue);
         //Assert
-        result.ElementAt(0).Bookings.Should().HaveCount(0);
-        result.ElementAt(1).Bookings.Should().HaveCount(0);
-        result.ElementAt(0).Date.Should().Be(anyDate);
-        result.ElementAt(1).Date.Should().Be(anyDate);
+        var emptyBookings =result.Where(x => x.ResourceId == notExistingResourceId1 || x.ResourceId == notExistingResourceId2).ToList();
+        var existingBooking =result.First(x => x.ResourceId == dailySchedule.ResourceId);
+        emptyBookings.ElementAt(0).Bookings.Should().HaveCount(0);
+        emptyBookings.ElementAt(1).Bookings.Should().HaveCount(0);
+        emptyBookings.ElementAt(0).Date.Should().Be(anyDate);
+        emptyBookings.ElementAt(1).Date.Should().Be(anyDate);
+        existingBooking.Bookings.Should().HaveCount(1);
+        existingBooking.Date.Should().Be(anyDate);
     }
 }
