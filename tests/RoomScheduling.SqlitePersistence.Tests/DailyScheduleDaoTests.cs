@@ -27,4 +27,22 @@ public class DailyScheduleDaoTests
         var dailyScheduleFromDb = await dao.Get(dailySchedule.ResourceId, dailySchedule.Date);
         dailyScheduleFromDb.IsTimeSlotAvailable(from, to).Should().BeFalse();
     }
+    
+    [Fact]
+    public async Task Returns_fully_available_schedule_when_no_bookings_made()
+    {
+        //Arrange
+        var createDbConnection = DbFixture.GetDefaultCreateDbFunc();
+        var dbBootstrapper = new Bootstrapper(createDbConnection);
+        var notExistingResourceId = $"{Guid.NewGuid():N}";
+        var anyDate = DateOnly.MinValue;
+        await dbBootstrapper.Bootstrap();
+        var dao = new DailyScheduleDao(createDbConnection);
+        //Act
+        var result = await dao.Get(notExistingResourceId, DateOnly.MinValue);
+        //Assert
+        result.Bookings.Should().HaveCount(0);
+        result.ResourceId.Should().Be(notExistingResourceId);
+        result.Date.Should().Be(anyDate);
+    }
 }
