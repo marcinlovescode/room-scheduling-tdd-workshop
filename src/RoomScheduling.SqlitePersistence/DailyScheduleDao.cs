@@ -38,6 +38,6 @@ public class DailyScheduleDao
             ResourceId = resourceId,
             Date = date.ToShortDateString()
         });
-        return DailyScheduleBookingDbModel.ToDomain(roomDbModel.ToList());
+        return DailyScheduleBookingDbModel.ToDomain(roomDbModel.ToList(), resourceId, date);
     }
 }
