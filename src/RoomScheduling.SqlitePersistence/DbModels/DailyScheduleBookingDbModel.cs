@@ -23,7 +23,7 @@ public class DailyScheduleBookingDbModel
             .ToList()
             .AsReadOnly();
 
-    public static DailySchedule ToDomain(IReadOnlyCollection<DailyScheduleBookingDbModel> dailyScheduleBookingsDbModels)
+    public static DailySchedule ToDomain(IReadOnlyCollection<DailyScheduleBookingDbModel> dailyScheduleBookingsDbModels, string? resourceId = null, DateOnly? date = null)
     {
         var firstElement = dailyScheduleBookingsDbModels.First();
         return new DailySchedule(firstElement.ResourceId, DateOnly.Parse(firstElement.Date), dailyScheduleBookingsDbModels
