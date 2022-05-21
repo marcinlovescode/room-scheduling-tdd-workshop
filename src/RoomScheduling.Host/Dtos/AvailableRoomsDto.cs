@@ -10,9 +10,3 @@ public class AvailableRoomsDto
     public DateTime Date { get; set; }
     public IList<Slot>? AvailableSlots { get; set; }
 }
-
-public class Slot
-{
-    public string From { get; set; }
-    public string To { get; set; }
-}
