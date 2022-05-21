@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
+using RoomScheduling.Application.Handlers;
 using RoomScheduling.Domain;
 using RoomScheduling.Fixtures;
 using RoomScheduling.SqlitePersistence;
@@ -16,7 +16,7 @@ public class FindAvailableSlotsForRoomsMatchingCriteriaTests
     public async Task Returns_rooms_and_slots()
     {
         //Arrange
-        var query = new { NumberOfSeats = 5, HasProjector = false, HasSoundSystem = true, HasAirConditioner = true, Date = DateOnly.FromDateTime(DateTime.Now) };
+        var query = new FindAvailableSlotsForRoomsMatchingCriteriaQuery(5, false, true, true, DateOnly.FromDateTime(DateTime.Now));
         var createDbConnection = DbFixture.GetDefaultCreateDbFunc();
         await new Bootstrapper(createDbConnection).Bootstrap();
         var roomDao = new RoomDao(createDbConnection);
@@ -39,7 +39,7 @@ public class FindAvailableSlotsForRoomsMatchingCriteriaTests
         await Task.WhenAll(rooms.Select(x => roomDao.Save(x)));
         await Task.WhenAll(schedules.Select(x => scheduleDao.Save(x)));
 
-        var queryHandler = null;
+        var queryHandler = new FindAvailableSlotsForRoomsMatchingCriteria(roomDao,scheduleDao);
         //Act
         var result = await queryHandler.Handle(query);
         //Assert
@@ -50,13 +50,13 @@ public class FindAvailableSlotsForRoomsMatchingCriteriaTests
         fiveSlotsRoom.HasProjector.Should().Be(rooms[0].HasProjector);
         fiveSlotsRoom.HasSoundSystem.Should().Be(rooms[0].HasSoundSystem);
         fiveSlotsRoom.HasAirConditioner.Should().Be(rooms[0].HasAirConditioner);
-        fiveSlotsRoom.AvailableTimeSlots.Should().Contain(new TimeOnly(00, 00), new TimeOnly(10, 00));
-        fiveSlotsRoom.AvailableTimeSlots.Should().Contain(new TimeOnly(13, 00), new TimeOnly(14, 30));
-        fiveSlotsRoom.AvailableTimeSlots.Should().Contain(new TimeOnly(16, 00), new TimeOnly(00, 00));
+        fiveSlotsRoom.AvailableSlots.Should().Contain((new TimeOnly(00, 00), new TimeOnly(10, 00)));
+        fiveSlotsRoom.AvailableSlots.Should().Contain((new TimeOnly(13, 00), new TimeOnly(14, 30)));
+        fiveSlotsRoom.AvailableSlots.Should().Contain((new TimeOnly(16, 00), new TimeOnly(00, 00)));
         eightSlotsRoom.NumberOfSeats.Should().Be(rooms[3].NumberOfSeats);
         eightSlotsRoom.HasProjector.Should().Be(rooms[3].HasProjector);
         eightSlotsRoom.HasSoundSystem.Should().Be(rooms[3].HasSoundSystem);
         eightSlotsRoom.HasAirConditioner.Should().Be(rooms[3].HasAirConditioner);
-        eightSlotsRoom.AvailableTimeSlots.Should().Contain(new TimeOnly(00, 00), new TimeOnly(00, 00));
+        eightSlotsRoom.AvailableSlots.Should().Contain((new TimeOnly(00, 00), new TimeOnly(00, 00)));
     }
 }

@@ -6,7 +6,7 @@ using RoomScheduling.SqlitePersistence.DbModels;
 
 namespace RoomScheduling.SqlitePersistence;
 
-public class DailyScheduleDao
+public class DailyScheduleDao : IDailyScheduleDao
 {
     private readonly Func<SqliteConnection> _createDbConnection;
 
