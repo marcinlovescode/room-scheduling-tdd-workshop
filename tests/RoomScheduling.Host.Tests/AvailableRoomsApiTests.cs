@@ -17,17 +17,17 @@ namespace RoomScheduling.Host.Tests;
 public class AvailableRoomsApiTests
 {
     [Fact]
-    public async Task Can_read_created_room()
+    public async Task Returns_available_rooms()
     {
         //Arrange
-        var roomApiUrl = "/api/available-rooms";
+        var roomApiUrl = "/api/availablerooms";
         var availableRoomsQuery = new
         {
             RequiredNumberOfSeats = 6,
             RequiresProjector = true,
             RequiresSoundSystem = false,
             RequiresAirConditioner = true,
-            Date = DateTime.Now.Date
+            Date = DateTime.Now
         };
 
         var application = new WebApplicationFactory<Program>()
@@ -44,15 +44,17 @@ public class AvailableRoomsApiTests
         //Assert
         var dto = await response.Content.ReadFromJsonAsync<IReadOnlyCollection<AvailableRoomsDto>>();
         var availableRoom = (dto ?? throw new Exception("Response is empty")).Single();
-        availableRoom.Date.Should().Be(DateOnly.FromDateTime(DateTime.Now));
+        availableRoom.Date.Date.Should().Be(DateTime.Now.Date);
         availableRoom.Name.Should().Be(TestDataFeeder.Rooms[1].Name);
         availableRoom.HasProjector.Should().Be(TestDataFeeder.Rooms[1].HasProjector);
         availableRoom.HasAirConditioner.Should().Be(TestDataFeeder.Rooms[1].HasAirConditioner);
         availableRoom.HasSoundSystem.Should().Be(TestDataFeeder.Rooms[1].HasSoundSystem);
         availableRoom.NumberOfSeats.Should().Be(TestDataFeeder.Rooms[1].NumberOfSeats);
-        availableRoom.NumberOfSeats.Should().Be(TestDataFeeder.Rooms[1].NumberOfSeats);
-        availableRoom.AvailableSlots.Should().Contain((new TimeOnly(00, 00), new TimeOnly(11, 00)));
-        availableRoom.AvailableSlots.Should().Contain((new TimeOnly(12, 00), new TimeOnly(16, 00)));
-        availableRoom.AvailableSlots.Should().Contain((new TimeOnly(18, 00), new TimeOnly(00, 00)));
+        availableRoom.AvailableSlots[0].From.Should().Be("00:00");
+        availableRoom.AvailableSlots[0].To.Should().Be("11:00");
+        availableRoom.AvailableSlots[1].From.Should().Be("12:00");
+        availableRoom.AvailableSlots[1].To.Should().Be("16:00");        
+        availableRoom.AvailableSlots[2].From.Should().Be("18:00");
+        availableRoom.AvailableSlots[2].To.Should().Be("00:00");
     }
 }

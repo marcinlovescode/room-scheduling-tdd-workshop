@@ -39,7 +39,7 @@ public class FindAvailableSlotsForRoomsMatchingCriteriaTests
         await Task.WhenAll(rooms.Select(x => roomDao.Save(x)));
         await Task.WhenAll(schedules.Select(x => scheduleDao.Save(x)));
 
-        var queryHandler = new FindAvailableSlotsForRoomsMatchingCriteria(roomDao,scheduleDao);
+        var queryHandler = new FindAvailableSlotsForRoomsMatchingCriteriaHandler(roomDao,scheduleDao);
         //Act
         var result = await queryHandler.Handle(query);
         //Assert

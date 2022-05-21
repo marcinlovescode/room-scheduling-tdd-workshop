@@ -7,6 +7,12 @@ public class AvailableRoomsDto
     public bool HasProjector { get; set; }
     public bool HasSoundSystem { get; set; }
     public bool HasAirConditioner { get; set; }
-    public DateOnly Date { get; set; }
-    public IReadOnlyCollection<(TimeOnly from, TimeOnly to)>? AvailableSlots { get; set; }
+    public DateTime Date { get; set; }
+    public IList<Slot>? AvailableSlots { get; set; }
+}
+
+public class Slot
+{
+    public string From { get; set; }
+    public string To { get; set; }
 }

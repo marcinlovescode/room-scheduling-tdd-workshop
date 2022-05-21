@@ -24,7 +24,19 @@ builder.Services.AddScoped<Func<string, Task<Room>>>(provider =>
         throw new ArgumentNullException(nameof(roomDao));
     return new ReadRoomHandler(roomDao).Handle;
 });
+builder.Services.AddScoped<Func<FindAvailableSlotsForRoomsMatchingCriteriaQuery, Task<IReadOnlyCollection<FindAvailableSlotsForRoomsMatchingCriteriaQueryResult>>>>(provider =>
+{
+    var roomDao = provider.GetService<IRoomDao>();
+    var dailyScheduleDao = provider.GetService<IDailyScheduleDao>();
+
+    if (roomDao == null)
+        throw new ArgumentNullException(nameof(roomDao));
+    if (dailyScheduleDao == null)
+        throw new ArgumentNullException(nameof(dailyScheduleDao));
+    return new FindAvailableSlotsForRoomsMatchingCriteriaHandler(roomDao, dailyScheduleDao).Handle;
+});
 builder.Services.AddScoped<IRoomDao, RoomDao>();
+builder.Services.AddScoped<IDailyScheduleDao, DailyScheduleDao>();
 
 var app = builder.Build();
 

@@ -44,12 +44,12 @@ public class FindAvailableSlotsForRoomsMatchingCriteriaQueryResult
     }
 }
 
-public class FindAvailableSlotsForRoomsMatchingCriteria
+public class FindAvailableSlotsForRoomsMatchingCriteriaHandler
 {
     private readonly IRoomDao _roomDao;
     private readonly IDailyScheduleDao _dailyScheduleDao;
 
-    public FindAvailableSlotsForRoomsMatchingCriteria(IRoomDao roomDao, IDailyScheduleDao dailyScheduleDao)
+    public FindAvailableSlotsForRoomsMatchingCriteriaHandler(IRoomDao roomDao, IDailyScheduleDao dailyScheduleDao)
     {
         _roomDao = roomDao;
         _dailyScheduleDao = dailyScheduleDao;
