@@ -10,4 +10,8 @@
       <ProjectReference Include="..\RoomScheduling.Domain\RoomScheduling.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="SendGrid"/>
+    </ItemGroup>
+
 </Project>
