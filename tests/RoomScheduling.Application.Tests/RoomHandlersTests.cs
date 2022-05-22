@@ -54,13 +54,13 @@ public class RoomHandlersTests
     public async Task Sends_email_with_bookings_for_room()
     {
         //Arrange
-        var command = new { name = Guid.NewGuid().ToString("N"), date = DateOnly.FromDateTime(DateTime.Now), email="test@email.com" };
+        var command = new  SendNotificationAboutBookingsCommand(Guid.NewGuid().ToString("N"), DateOnly.FromDateTime(DateTime.Now),"test@email.com");
         var createDbConnection = DbFixture.GetDefaultCreateDbFunc();
         await new Bootstrapper(createDbConnection).Bootstrap();
         var roomDao = new RoomDao(createDbConnection);
         var scheduleDao = new DailyScheduleDao(createDbConnection);
-        var room = new Room(5, true, true, true, command.name);
-        var schedule = new DailySchedule(room.Name, command.date,
+        var room = new Room(5, true, true, true, command.Name);
+        var schedule = new DailySchedule(room.Name, command.Date,
             new (TimeOnly from, TimeOnly to)[] { (new TimeOnly(10, 00), new TimeOnly(13, 00)), (new TimeOnly(14, 00), new TimeOnly(15, 00))});
         await roomDao.Save(room);
         await scheduleDao.Save(schedule);
@@ -68,15 +68,16 @@ public class RoomHandlersTests
         var sendGridMock = new Mock<ISendGridClient>();
         SendGridMessage sendGridMessageToAssert = null;
         sendGridMock.Setup(x => x.SendEmailAsync(It.IsAny<SendGridMessage>(), It.IsAny<CancellationToken>()))
-            .Callback((SendGridMessage message) => { sendGridMessageToAssert = message; })
+            .Callback((SendGridMessage message, CancellationToken _) => { sendGridMessageToAssert = message; })
             .Returns(Task.FromResult(sendGridResponse));
-        var commandHandler = new SendNotificationAboutBookings(scheduleDao, sendGridMock.Object);
+        var commandHandler = new SendNotificationAboutBookingsHandler(sendGridMock.Object, scheduleDao);
         //Act
-        var result = await commandHandler.Handle(command);
+        await commandHandler.Handle(command);
         //Assert
         if (sendGridMessageToAssert == null)
             throw new Exception("SendGrid client not called");
-        sendGridMessageToAssert.Personalizations.SelectMany(x => x.Tos).Select(x => x.Email).Should().Contain(command.email);
+        var emails = sendGridMessageToAssert.Personalizations.SelectMany(x => x.Tos).Select(x => x.Email).ToList();
+        emails[0].Should().Be(command.Email);
         sendGridMessageToAssert.HtmlContent.Should().Be("Bookings: 10:00-13:00, 14:00-15:00");
     }
 }
