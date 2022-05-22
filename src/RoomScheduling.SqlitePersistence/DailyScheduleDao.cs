@@ -11,7 +11,7 @@ public class DailyScheduleDao : IDailyScheduleDao
     private readonly Func<SqliteConnection> _createDbConnection;
 
     private const string InsertSqlCommand =
-        @"INSERT INTO Bookings (ResourceId, [Date], [From], [To])
+        @"INSERT OR IGNORE INTO Bookings (ResourceId, [Date], [From], [To])
           VALUES(@ResourceId, @Date, @From, @To)";
 
     private const string ReadSqlQuery =
@@ -35,7 +35,7 @@ public class DailyScheduleDao : IDailyScheduleDao
         await using var connection = _createDbConnection();
         var roomDbModel = await connection.QueryAsync<DailyScheduleBookingDbModel>(ReadSqlQuery, new
         {
-            ResourceId = resourceId,
+            ResourcesIds = new []{resourceId},
             Date = date.ToShortDateString()
         });
         return DailyScheduleBookingDbModel.ToDomain(roomDbModel.ToList(), resourceId, date);

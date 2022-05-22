@@ -59,7 +59,7 @@ namespace RoomScheduling.Host.Tests
             //Arrange
             var roomName = TestDataFeeder.Rooms[0].Name;
             var roomApiUrl = $"/api/rooms/{roomName}/bookings";
-            var payload = new
+            var payload = new BookRoomDto()
             {
                 Date = DateTime.Now,
                 From = "08:00",

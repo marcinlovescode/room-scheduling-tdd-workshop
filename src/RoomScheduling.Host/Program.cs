@@ -35,6 +35,22 @@ builder.Services.AddScoped<Func<FindAvailableSlotsForRoomsMatchingCriteriaQuery,
         throw new ArgumentNullException(nameof(dailyScheduleDao));
     return new FindAvailableSlotsForRoomsMatchingCriteriaHandler(roomDao, dailyScheduleDao).Handle;
 });
+builder.Services.AddScoped<Func<FindBookingsQuery, Task<FindBookingsQueryResult>>>(provider =>
+{
+    var dailyScheduleDao = provider.GetService<IDailyScheduleDao>();
+
+    if (dailyScheduleDao == null)
+        throw new ArgumentNullException(nameof(dailyScheduleDao));
+    return new FindBookingsHandler(dailyScheduleDao).Handle;
+});
+builder.Services.AddScoped<Func<BookRoomCommand, Task>>(provider =>
+{
+    var dailyScheduleDao = provider.GetService<IDailyScheduleDao>();
+
+    if (dailyScheduleDao == null)
+        throw new ArgumentNullException(nameof(dailyScheduleDao));
+    return new BookRoomHandler(dailyScheduleDao).Handle;
+});
 builder.Services.AddScoped<IRoomDao, RoomDao>();
 builder.Services.AddScoped<IDailyScheduleDao, DailyScheduleDao>();
 
