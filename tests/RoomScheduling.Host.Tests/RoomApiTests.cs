@@ -88,7 +88,7 @@ namespace RoomScheduling.Host.Tests
             dto.Should().NotBeNull();
             dto?.Name.Should().Be(roomName);
             dto?.Date.Date.Should().Be(DateTime.Now.Date);
-            dto?.Bookings.Single(x => x.From == "08:00" && x.To == "09:00").Should().NotBeNull();
+            dto?.Bookings!.Single(x => x.From == "08:00" && x.To == "09:00").Should().NotBeNull();
         }
     }
 }

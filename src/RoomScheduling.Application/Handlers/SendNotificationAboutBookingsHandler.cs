@@ -22,11 +22,13 @@ public class SendNotificationAboutBookingsHandler
 {
     private readonly ISendGridClient _sendGridClient;
     private readonly IDailyScheduleDao _scheduleDao;
+    private readonly string _fromEmail; 
 
-    public SendNotificationAboutBookingsHandler(ISendGridClient sendGridClient, IDailyScheduleDao scheduleDao)
+    public SendNotificationAboutBookingsHandler(ISendGridClient sendGridClient, IDailyScheduleDao scheduleDao, string fromEmail)
     {
         _sendGridClient = sendGridClient;
         _scheduleDao = scheduleDao;
+        _fromEmail = fromEmail;
     }
 
     public async Task Handle(SendNotificationAboutBookingsCommand command)
@@ -34,7 +36,7 @@ public class SendNotificationAboutBookingsHandler
        var schedule = await _scheduleDao.Get(command.Name, command.Date);
        var msg = new SendGridMessage()
        {
-           From = new EmailAddress("no-reply@roomscheduling.com"),
+           From = new EmailAddress(_fromEmail),
            Subject = "Bookings"
        };
        var bookingsText = string.Join(", ", schedule.Bookings.Select(x => $"{x.from.ToShortTimeString()}-{x.to.ToShortTimeString()}").ToList());

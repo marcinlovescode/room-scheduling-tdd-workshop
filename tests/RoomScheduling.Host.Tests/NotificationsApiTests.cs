@@ -1,20 +1,16 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Newtonsoft.Json;
-using RoomScheduling.Host.Dtos;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using Xunit;
@@ -28,7 +24,7 @@ public class NotificationsApiTests
     {
         //Arrange
         var roomName = TestDataFeeder.Rooms[0].Name;
-        var notificationsUrl = $"/api/rooms/{roomName}/bookings";
+        var notificationsUrl = $"/api/notifications/bookings/rooms/{roomName}";
         var sendEmailNotificationCommand = new
         {
             Date = DateTime.Now,
@@ -37,7 +33,7 @@ public class NotificationsApiTests
         
         var sendGridMock = new Mock<ISendGridClient>();
         var sendGridResponse = new Response(HttpStatusCode.Accepted, new StringContent("OK"), null);
-        SendGridMessage sendGridMessageToAssert = null;
+        SendGridMessage? sendGridMessageToAssert = null;
         sendGridMock.Setup(x => x.SendEmailAsync(It.IsAny<SendGridMessage>(), It.IsAny<CancellationToken>()))
             .Callback((SendGridMessage message, CancellationToken _) => { sendGridMessageToAssert = message; })
             .Returns(Task.FromResult(sendGridResponse));

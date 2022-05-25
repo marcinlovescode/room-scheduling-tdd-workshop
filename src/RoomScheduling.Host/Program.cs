@@ -3,6 +3,10 @@ using RoomScheduling.Application.Handlers;
 using RoomScheduling.Application.Ports;
 using RoomScheduling.Domain;
 using RoomScheduling.SqlitePersistence;
+using SendGrid;
+
+var sendGridApiKey = "<SECRET>";
+var fromEmail = "marcin@marcinlovescode.com";
 
 var builder = WebApplication.CreateBuilder(args);
 var dbName = Guid.NewGuid().ToString("N");
@@ -51,13 +55,33 @@ builder.Services.AddScoped<Func<BookRoomCommand, Task>>(provider =>
         throw new ArgumentNullException(nameof(dailyScheduleDao));
     return new BookRoomHandler(dailyScheduleDao).Handle;
 });
+builder.Services.AddScoped<Func<SendNotificationAboutBookingsCommand, Task>>(provider =>
+{
+    var dailyScheduleDao = provider.GetService<IDailyScheduleDao>();
+    var sendGridClient = provider.GetService<ISendGridClient>();
+
+    if (dailyScheduleDao == null)
+        throw new ArgumentNullException(nameof(dailyScheduleDao));
+    if (sendGridClient == null)
+        throw new ArgumentNullException(nameof(dailyScheduleDao));
+    return new SendNotificationAboutBookingsHandler(sendGridClient, dailyScheduleDao, fromEmail).Handle;
+});
 builder.Services.AddScoped<IRoomDao, RoomDao>();
 builder.Services.AddScoped<IDailyScheduleDao, DailyScheduleDao>();
+builder.Services.AddScoped<ISendGridClient>(_ => new SendGridClient(sendGridApiKey));
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 app.MapControllers();
 new Bootstrapper(createDbFunc).Bootstrap().GetAwaiter().GetResult();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.Run();
 
 public partial class Program

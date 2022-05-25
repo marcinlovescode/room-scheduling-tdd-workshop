@@ -38,6 +38,8 @@ public class RoomsController : ControllerBase
     [HttpPost("{name}/bookings",Name = "BookRoom")]
     public async Task<IActionResult> Post(string name, BookRoomDto dto)
     {
+        _ = dto.From ?? throw new ArgumentNullException(dto.From);
+        _ = dto.To ?? throw new ArgumentNullException(dto.From);
         await _bookRoomCommandHandler(new BookRoomCommand(DateOnly.FromDateTime(dto.Date), name, TimeOnly.Parse(dto.From), TimeOnly.Parse(dto.To)));
         return CreatedAtAction(nameof(GetBookings), new { name = name, date = dto.Date }, null);
     }

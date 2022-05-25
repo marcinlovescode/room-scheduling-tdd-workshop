@@ -66,11 +66,11 @@ public class RoomHandlersTests
         await scheduleDao.Save(schedule);
         var sendGridResponse = new Response(HttpStatusCode.Accepted, new StringContent("OK"), null);
         var sendGridMock = new Mock<ISendGridClient>();
-        SendGridMessage sendGridMessageToAssert = null;
+        SendGridMessage? sendGridMessageToAssert = null;
         sendGridMock.Setup(x => x.SendEmailAsync(It.IsAny<SendGridMessage>(), It.IsAny<CancellationToken>()))
-            .Callback((SendGridMessage message, CancellationToken _) => { sendGridMessageToAssert = message; })
+            .Callback((SendGridMessage? message, CancellationToken _) => { sendGridMessageToAssert = message; })
             .Returns(Task.FromResult(sendGridResponse));
-        var commandHandler = new SendNotificationAboutBookingsHandler(sendGridMock.Object, scheduleDao);
+        var commandHandler = new SendNotificationAboutBookingsHandler(sendGridMock.Object, scheduleDao, "test@email.com");
         //Act
         await commandHandler.Handle(command);
         //Assert
