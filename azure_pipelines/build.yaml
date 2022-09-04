@@ -1,0 +1,29 @@
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+
+- script: |
+    docker build -t room-scheduling -f Dockerfile .
+  displayName: 'build docker image'
+
+- script: |
+    docker run -p 8080:80 -d --entrypoint dotnet room-scheduling RoomScheduling.Host.dll --environment=E2E-TESTS
+    echo '##vso[task.setvariable variable=BASE_URL]http://localhost:8080'
+  displayName: 'build docker image'
+
+- script: |
+    curl -L https://github.com/karatelabs/karate/releases/download/v1.2.0/karate-1.2.0.jar --output karate.jar
+  displayName: 'download karate'
+
+- script: |
+    java -jar karate.jar -g ./karate_tests --format=junit:xml ./karate_tests/features
+  displayName: 'run karate'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+    testResultsFiles: '**/target/karate-reports/*.xml' 

@@ -15,3 +15,6 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 user-stories.md
+
+karate_tests/karate.jar
+karate_tests/target/**/*.*

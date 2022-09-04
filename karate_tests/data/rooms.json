@@ -1,0 +1,30 @@
+[
+    {
+      "numberOfSeats": 10,
+      "hasProjector": true,
+      "hasSoundSystem": true,
+      "hasAirConditioner": true,
+      "name": "Burning Desire"
+    },
+    {
+      "numberOfSeats": 5,
+      "hasProjector": true,
+      "hasSoundSystem": false,
+      "hasAirConditioner": true,
+      "name": "Fortune Seekers"
+    },
+    {
+      "numberOfSeats": 15,
+      "hasProjector": false,
+      "hasSoundSystem": true,
+      "hasAirConditioner": true,
+      "name": "Goal"
+    },
+    {
+      "numberOfSeats": 8,
+      "hasProjector": true,
+      "hasSoundSystem": true,
+      "hasAirConditioner": false,
+      "name": "Think Out Loud"
+    }
+  ]
