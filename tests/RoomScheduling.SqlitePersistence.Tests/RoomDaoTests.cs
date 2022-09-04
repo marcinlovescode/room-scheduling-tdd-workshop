@@ -50,4 +50,23 @@ public class RoomDaoTests
         roomsMatchingCriteria.Should().Contain(x => x.Name == room2.Name);
         roomsMatchingCriteria.Should().Contain(x => x.Name == room3.Name);
     }
+
+    [Fact]
+    public async Task Get_all_rooms()
+    {
+        //Arrange
+        var createDbConnection = DbFixture.GetDefaultCreateDbFunc();
+        var dbBootstrapper = new Bootstrapper(createDbConnection);
+        await dbBootstrapper.Bootstrap();
+        var room1 = new Room(10, true, false, false, $"{Guid.NewGuid():N}");
+        var room2 = new Room(15, false, true, false, $"{Guid.NewGuid():N}");
+        var dao = new RoomDao(createDbConnection);
+        await dao.Save(room1);
+        await dao.Save(room2);
+        //Act
+        var roomsMatchingCriteria = await dao.GetAll();
+        //Assert
+        roomsMatchingCriteria.Should().Contain(x => x.Name == room1.Name);
+        roomsMatchingCriteria.Should().Contain(x => x.Name == room2.Name);
+    }
 }

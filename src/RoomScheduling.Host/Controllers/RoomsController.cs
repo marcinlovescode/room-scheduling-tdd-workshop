@@ -12,19 +12,26 @@ public class RoomsController : ControllerBase
     private readonly Func<DefineRoomCommand, Task> _defineRoomCommandHandler;
     private readonly Func<BookRoomCommand, Task> _bookRoomCommandHandler;
     private readonly Func<string, Task<Room>> _readRoomQueryHandler;
+    private readonly Func<Task<IReadOnlyCollection<Room>>> _readRoomsQueryHandler;
     private readonly Func<FindBookingsQuery, Task<FindBookingsQueryResult>> _findBookingsQueryHandler;
 
     public RoomsController(Func<DefineRoomCommand, Task> defineRoomCommandHandler, Func<BookRoomCommand, Task> bookRoomCommandHandler,
-        Func<string, Task<Room>> readRoomQueryHandler, Func<FindBookingsQuery, Task<FindBookingsQueryResult>> findBookingsQueryHandler)
+        Func<string, Task<Room>> readRoomQueryHandler, Func<FindBookingsQuery, Task<FindBookingsQueryResult>> findBookingsQueryHandler,
+        Func<Task<IReadOnlyCollection<Room>>>  readRoomsQueryHandler)
     {
         _defineRoomCommandHandler = defineRoomCommandHandler;
         _bookRoomCommandHandler = bookRoomCommandHandler;
         _readRoomQueryHandler = readRoomQueryHandler;
         _findBookingsQueryHandler = findBookingsQueryHandler;
+        _readRoomsQueryHandler = readRoomsQueryHandler;
     }
 
-    [HttpGet(Name = "ReadRoom")]
+    [HttpGet("{name}", Name = "ReadRoom")]
     public async Task<IActionResult> Get(string name) => Ok(await _readRoomQueryHandler(name));
+
+
+    [HttpGet(Name = "ReadRooms")]
+    public async Task<IActionResult> GetAll() => Ok(await _readRoomsQueryHandler());
 
     [HttpPost(Name = "DefineRoom")]
     public async Task<IActionResult> Post(RoomDto dto)

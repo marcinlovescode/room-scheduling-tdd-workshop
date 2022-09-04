@@ -21,7 +21,7 @@ public class Room
     {
         if (name.Length < 3)
             throw new ArgumentException("Room name length must be greater or equal 3");
-        if (numberOfSeats <= 1)
+        if (numberOfSeats < 1)
             throw new ArgumentException("Number of seats must be greater than or equal 1");
         return new Room(numberOfSeats, hasProjector, hasSoundSystem, hasAirConditioner, name);
     }

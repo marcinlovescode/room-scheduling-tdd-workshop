@@ -14,11 +14,12 @@ public class RoomDao : IRoomDao
         @"INSERT INTO Rooms (Name, NumberOfSeats, HasProjector, HasSoundSystem, HasAirConditioner)
           VALUES(@Name, @NumberOfSeats, @HasProjector, @HasSoundSystem, @HasAirConditioner)";
 
-    private const string ReadSqlQuery =
+    private const string ReadAllSqlQuery =
         @"SELECT NumberOfSeats, HasProjector, HasSoundSystem, HasAirConditioner, Name
-          FROM Rooms
-          WHERE Name=@name";
-    
+          FROM Rooms";
+
+    private const string ReadSqlQuery = ReadAllSqlQuery + " WHERE Name=@name";
+
     private const string FindSqlQuery =
         @"SELECT NumberOfSeats, HasProjector, HasSoundSystem, HasAirConditioner, Name
           FROM Rooms
@@ -41,7 +42,7 @@ public class RoomDao : IRoomDao
         await using var connection = _createDbConnection();
         await connection.ExecuteAsync(InsertSqlCommand, RoomDbModel.FromDomain(room));
     }
-    
+
     public async Task<Room> Get(string name)
     {
         await using var connection = _createDbConnection();
@@ -51,7 +52,14 @@ public class RoomDao : IRoomDao
         });
         return roomDbModel.ToDomain();
     }
-    
+
+    public async Task<IReadOnlyCollection<Room>> GetAll()
+    {
+        await using var connection = _createDbConnection();
+        var roomDbModel = await connection.QueryAsync<RoomDbModel>(ReadAllSqlQuery);
+        return roomDbModel.Select(x=> x.ToDomain()).ToList();
+    }
+
     public async Task<IReadOnlyCollection<Room>> Find(int numberOfSeats, bool hasProjector, bool hasSoundSystem, bool hasAirConditioner)
     {
         await using var connection = _createDbConnection();

@@ -90,5 +90,42 @@ namespace RoomScheduling.Host.Tests
             dto?.Date.Date.Should().Be(DateTime.Now.Date);
             dto?.Bookings!.Single(x => x.From == "08:00" && x.To == "09:00").Should().NotBeNull();
         }
+
+        [Fact]
+        public async Task Can_read_all_rooms()
+        {
+            //Arrange
+            var roomName = TestDataFeeder.Rooms[0].Name;
+            var roomApiUrl = $"/api/rooms";
+            var payload = new BookRoomDto()
+            {
+                Date = DateTime.Now,
+                From = "08:00",
+                To = "09:00"
+            };
+            var request = new HttpRequestMessage(HttpMethod.Get, roomApiUrl);
+
+            var application = new WebApplicationFactory<Program>()
+                .WithWebHostBuilder(builder =>
+                {
+                }); 
+            var sqlConnection = application.Services.CreateScope().ServiceProvider.GetService<Func<SqliteConnection>>();
+            if (sqlConnection == null) throw new Exception("SQL Connection is not registered");
+        
+            await TestDataFeeder.Feed(sqlConnection);
+
+            var client = application.CreateClient();
+            var response = await client.SendAsync(request);
+            //Act
+            response.EnsureSuccessStatusCode();
+            var dto = await response.Content.ReadFromJsonAsync<RoomDto[]>();
+            //Assert
+            dto.Should().NotBeNull();
+            dto.Should().HaveCount(4);
+            dto.Should().Contain(x=> x.NumberOfSeats == 5 && x.HasProjector == true && x.HasSoundSystem == true && x.HasAirConditioner == true );
+            dto.Should().Contain(x=> x.NumberOfSeats == 6 && x.HasProjector == true && x.HasSoundSystem == false && x.HasAirConditioner == true );
+            dto.Should().Contain(x=> x.NumberOfSeats == 7 && x.HasProjector == false && x.HasSoundSystem == false && x.HasAirConditioner == false );
+            dto.Should().Contain(x=> x.NumberOfSeats == 8 && x.HasProjector == false && x.HasSoundSystem == true && x.HasAirConditioner == true );
+        }
     }
 }

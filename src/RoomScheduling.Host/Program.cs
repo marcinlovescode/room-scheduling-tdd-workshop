@@ -66,10 +66,22 @@ builder.Services.AddScoped<Func<SendNotificationAboutBookingsCommand, Task>>(pro
         throw new ArgumentNullException(nameof(dailyScheduleDao));
     return new SendNotificationAboutBookingsHandler(sendGridClient, dailyScheduleDao, fromEmail).Handle;
 });
+builder.Services.AddScoped<Func<Task<IReadOnlyCollection<Room>>>>(provider =>
+{
+    var roomDao = provider.GetService<IRoomDao>();
+    if (roomDao == null)
+        throw new ArgumentNullException(nameof(roomDao));
+    return new ReadRoomsHandler(roomDao).Handle;
+});
 builder.Services.AddScoped<IRoomDao, RoomDao>();
 builder.Services.AddScoped<IDailyScheduleDao, DailyScheduleDao>();
 builder.Services.AddScoped<ISendGridClient>(_ => new SendGridClient(sendGridApiKey));
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(p => p.AddPolicy("cors", builder =>
+    {
+        builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("Location");
+    }));
 
 var app = builder.Build();
 
@@ -81,6 +93,19 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+if (app.Environment.IsEnvironment("E2E-TESTS"))
+{
+   var roomDao =  app.Services.GetService<IRoomDao>();
+   if (roomDao == null)
+        throw new ArgumentNullException(nameof(roomDao));
+   roomDao.Save(new Room(10, true, true, true, "Burning Desire")).GetAwaiter().GetResult();
+   roomDao.Save(new Room(5, true, false, true, "Fortune Seekers")).GetAwaiter().GetResult();
+   roomDao.Save(new Room(15, false, true, true, "Goal")).GetAwaiter().GetResult();
+   roomDao.Save(new Room(8, true, true, false, "Think Out Loud")).GetAwaiter().GetResult();
+}
+
+app.UseCors("cors");
 
 app.Run();
 
